@@ -16,7 +16,7 @@ public class NotaService {
     NotaRepository notaRep;
 
     public ResponseEntity<List<Nota>> findAll() {
-        return ResponseEntity.status(200).body(carRep.findAll());
+        return ResponseEntity.status(200).body(notaRep.findAll());
     }
 
     public ResponseEntity<Nota> findByID(Integer id) {
