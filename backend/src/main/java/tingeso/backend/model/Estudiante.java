@@ -1,10 +1,10 @@
 package tingeso.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -17,4 +17,6 @@ public class Estudiante {
     private String nombres;
     private String apellidos;
     private String email;
+    @Column(name = "cod_carr")
+    private Integer codCarr;
 }

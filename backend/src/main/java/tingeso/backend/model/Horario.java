@@ -14,6 +14,6 @@ public class Horario {
     private Integer id;
 
     private String horas;
-    @Column(name = "id_curso")
-    private Integer idCurso;
+    @JoinColumn(name = "cod_asig")
+    private Integer codAsig;
 }

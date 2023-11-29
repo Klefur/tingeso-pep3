@@ -1,5 +1,6 @@
 package tingeso.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,8 +15,10 @@ public class Prerrequisito {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "cod_asig")
-    private Integer codAsig;
+    @ManyToOne
+    @JoinColumn(name = "cod_asig")
+    @JsonIgnore
+    private PlanEstudio planEstudio;
     @Column(name = "cod_prerreq")
-    private Integer codPrerreq;
+    private Integer prerreq;
 }

@@ -1,11 +1,11 @@
 package tingeso.backend.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -13,14 +13,18 @@ import lombok.NoArgsConstructor;
 @Table(name = "plan_estudio")
 public class PlanEstudio {
     @Id
-    @Column(name = "cod_asig")
+    @JoinColumn(name = "cod_asig")
     private Integer codAsig;
 
     @Column(name = "nom_asig")
     private String nomAsig;
     @Column(name = "cod_plan")
     private String codPlan;
-    @Column(name = "cod_carr")
-    private Integer codCarr;
     private Integer nivel;
+    @ManyToOne
+    @JoinColumn(name = "cod_carr")
+    @JsonIgnore
+    private Carrera carrera;
+    @OneToMany(mappedBy = "planEstudio")
+    private List<Prerrequisito> prerreqs;
 }
