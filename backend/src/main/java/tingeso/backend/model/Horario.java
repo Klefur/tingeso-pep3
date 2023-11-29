@@ -14,6 +14,7 @@ public class Horario {
     private Integer id;
 
     private String horas;
+    @ManyToOne
     @JoinColumn(name = "cod_asig")
-    private Integer codAsig;
+    private PlanEstudio ramo;
 }

@@ -27,4 +27,7 @@ public class PlanEstudio {
     private Carrera carrera;
     @OneToMany(mappedBy = "planEstudio")
     private List<Prerrequisito> prerreqs;
+
+    @OneToMany(mappedBy = "ramo")
+    private List<Horario> horarios;
 }
