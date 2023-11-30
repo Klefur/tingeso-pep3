@@ -9,6 +9,7 @@ type Estudiante = {
 type Carrera = {
     codCarr: number;
     nombre: string;
+    ramos: PlanEstudio[];
 }
 
 type Prerrequisito = {
@@ -19,7 +20,7 @@ type Prerrequisito = {
 type PlanEstudio = {
     codAsig: number;
     nomAsig: string;
-    sem: number;
+    nivel: number;
     codCarr: number;
     prerreqs: Prerrequisito[];
 }
