@@ -25,7 +25,7 @@ public class NotaController {
         return carServ.findByID(id);
     }
 
-    @GetMapping("/estudiante/{codAlum}")
+    @GetMapping("/rut/{codAlum}")
     public ResponseEntity<List<Nota>> findByUserCod(@PathVariable String codAlum) {
         return carServ.findByUser(codAlum);
     }

@@ -7,7 +7,7 @@ export default function Card(estudiante: Estudiante) {
 
     const handleClick = () => {
         localStorage.setItem('estudiante', JSON.stringify(estudiante));
-        router.push(`malla/${estudiante.codCarr}`);
+        router.push(`malla`);
     }
 
 	return (

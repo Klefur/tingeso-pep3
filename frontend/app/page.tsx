@@ -28,10 +28,10 @@ export default function Home() {
 	return (
 		<main className="flex">
 			<Navbar/>
-			<div className=" mt-2 ml-3 min-w-[90vw]">
+			<div className=" mt-2 ml-3 min-w-[85vw]">
 				<div className='text-3xl'>Estudiantes</div>
 				{estudiantes.length > 0 && (
-					<div className='grid grid-cols-2 max-h-[94vh] overflow-y-scroll'>
+					<div className='grid grid-cols-2 max-h-[91vh] overflow-y-scroll'>
 						{estudiantes.map((estudiante: Estudiante) => (
 							<Card {...estudiante} />
 						))}
