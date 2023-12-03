@@ -1,7 +1,7 @@
 'use client';
 
 import Navbar from '@/app/components/navbar';
-import { Carrera, PlanEstudio } from '@/app/types';
+import { Carrera, Estudiante, PlanEstudio } from '@/app/types';
 import { useEffect, useState } from 'react';
 
 export default function RegisterHorario() {
@@ -24,6 +24,7 @@ export default function RegisterHorario() {
 
 	useEffect(() => {
 		getData();
+		
 	}, []);
 
 	const handleCarreraChange = (
@@ -33,19 +34,17 @@ export default function RegisterHorario() {
 		const selectedCarrera = carreras.find(
 			(carrera) => carrera.nombreCarrera === selectedNombreCarrera
 		);
-
-		console.log(selectedCarrera);
 		setSelectedCarrera(selectedCarrera);
 		setIsRamoEnabled(true); // Habilitar el segundo select al seleccionar una carrera
 	};
 
 	const handleRamoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const selectedCodRamo = event.target.value;
-		const selectedRamo = selectedCarrera?.ramos.find(
-			(ramo) => ramo.nomAsig === selectedCodRamo
+
+		const ramoToSelect = selectedCarrera?.ramos.find(
+			(ramo) => ramo.codAsig === parseInt(selectedCodRamo)
 		);
-		console.log(selectedRamo);
-		setSelectedRamo(selectedRamo);
+		setSelectedRamo(ramoToSelect);
 		setIsHorarioEnabled(true);
 		setHorario('');
 	};
@@ -57,27 +56,37 @@ export default function RegisterHorario() {
 		setHorario(horario);
 	};
 
-	const handleClick = () => {
+	const handleClick = async () => {
 		const regex = /^([lmwjv][1-6](-[lmwjv][1-6])*)?$/;
 
 		if (regex.test(horario)) {
 			// El formato es válido
-			fetch(
-				`http://localhost:8080/horario/`,
-				{
-					method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        horario: { horas: horario, codAsig: selectedRamo?.codAsig },
-                    }),
-				}
+			const ramo = selectedCarrera?.ramos.find(
+				(ramo) => ramo.nomAsig === selectedRamo?.nomAsig
 			);
+			const res = await fetch(`http://localhost:8080/horario`, {
+				method: 'POST',
+				// Incluye que es utf-8 para que no tire error
+				headers: {
+					'Content-Type': 'application/json',
+					charset: 'utf-8',
+				},
+				body: JSON.stringify({
+					horas: horario,
+					ramo,
+				}),
+			});
+
+			if (res.ok) {
+				alert('Horario subido con exito');
+				return;
+			}
+
+			alert('Error al subir el horario');
 		} else {
 			// El formato no es válido, puedes manejar el error de alguna manera
 			alert('Formato de horario no válido');
-            setHorario('');
+			setHorario('');
 		}
 	};
 
@@ -91,7 +100,7 @@ export default function RegisterHorario() {
 					</h1>
 					<div className="mx-auto my-2">
 						<select
-							className="w-[40vw] h-7"
+							className="w-[40vw] h-7 rounded-sm ps-1"
 							value={selectedCarrera?.nombreCarrera}
 							name="carrera"
 							onChange={handleCarreraChange}
@@ -111,7 +120,7 @@ export default function RegisterHorario() {
 					</div>
 					<div className="mx-auto my-2">
 						<select
-							className="w-[40vw] h-7 disabled:cursor-not-allowed"
+							className="w-[40vw] h-7 disabled:cursor-not-allowed rounded-sm ps-1"
 							name="ramo"
 							disabled={!isRamoEnabled}
 							onChange={handleRamoChange}
@@ -128,7 +137,7 @@ export default function RegisterHorario() {
 					</div>
 					<div className="mx-auto my-2">
 						<input
-							className="w-[40vw] h-7"
+							className="w-[40vw] h-7 disabled:cursor-not-allowed"
 							type="text"
 							placeholder="Ingrese el horario ej: l2-w3-j1"
 							disabled={!isHorarioEnabled}
@@ -137,8 +146,10 @@ export default function RegisterHorario() {
 						/>
 					</div>
 
-					<button className="mt-5 bg-white rounded-md p-2 mx-auto"
-                    onClick={handleClick}>
+					<button
+						className="mt-5 bg-white rounded-md p-2 mx-auto"
+						onClick={handleClick}
+					>
 						Subir horario
 					</button>
 				</div>

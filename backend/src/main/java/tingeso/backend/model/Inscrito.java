@@ -1,23 +1,24 @@
 package tingeso.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
+@Table(name = "inscrito")
 @NoArgsConstructor
-@Table(name = "nota")
-public class Nota {
+@Data
+public class Inscrito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer year;
-    private Double nota;
-    private Integer sem;
-    @Column(name = "cod_alumno")
-    private String codAlumno;
+    @JoinColumn(name = "cod_alum")
+    @ManyToOne
+    private Estudiante estudiante;
     @Column(name = "cod_asig")
     private Integer codAsig;
+    @Column(name = "id_horario")
+    private Integer idHorario;
 }

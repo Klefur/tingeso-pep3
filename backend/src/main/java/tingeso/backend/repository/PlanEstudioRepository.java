@@ -7,5 +7,4 @@ import tingeso.backend.model.PlanEstudio;
 
 @Repository
 public interface PlanEstudioRepository extends JpaRepository<PlanEstudio, Integer> {
-
 }

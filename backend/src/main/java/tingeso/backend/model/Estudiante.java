@@ -1,5 +1,6 @@
 package tingeso.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,7 @@ public class Estudiante {
     private String email;
     @Column(name = "cod_carr")
     private Integer codCarr;
+    @OneToMany(mappedBy = "estudiante")
+    @JsonIgnore
+    public List<Inscrito> ramosInscritos;
 }

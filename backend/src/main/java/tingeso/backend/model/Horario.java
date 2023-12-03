@@ -1,5 +1,7 @@
 package tingeso.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +18,6 @@ public class Horario {
     private String horas;
     @ManyToOne
     @JoinColumn(name = "cod_asig")
+    @JsonBackReference
     private PlanEstudio ramo;
 }
