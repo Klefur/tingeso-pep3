@@ -4,7 +4,6 @@ type Estudiante = {
 	apellidos: string;
 	email: string;
 	codCarr: number;
-	ramosInscritos: Inscrito[];
 };
 
 type Carrera = {
@@ -19,6 +18,7 @@ type Prerrequisito = {
 };
 
 type Horario = {
+	id: number;
 	horas: string;
 	codAsig: number;
 };
@@ -44,7 +44,7 @@ type Nota = {
 type Inscrito = {
 	codAlum: string;
 	codAsig: number;
-	idHorario: number;
+	horario: Horario;
 };
 
 export type { Estudiante, Carrera, PlanEstudio, Prerrequisito, Nota, Inscrito, Horario };

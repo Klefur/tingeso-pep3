@@ -3,6 +3,12 @@
 import Navbar from '@/app/components/navbar';
 import { Carrera, Estudiante, PlanEstudio } from '@/app/types';
 import { useEffect, useState } from 'react';
+import Select, { Options, SingleValue } from 'react-select';
+
+interface Option {
+	value: string;
+	label: string;
+}
 
 export default function RegisterHorario() {
 	const [carreras, setCarreras] = useState<Carrera[]>([]);
@@ -24,25 +30,22 @@ export default function RegisterHorario() {
 
 	useEffect(() => {
 		getData();
-		
 	}, []);
 
-	const handleCarreraChange = (
-		event: React.ChangeEvent<HTMLSelectElement>
-	) => {
-		const selectedNombreCarrera = event.target.value;
+	const handleCarreraChange = (event: Option | null) => {
+		const selectedNombreCarrera = event;
 		const selectedCarrera = carreras.find(
-			(carrera) => carrera.nombreCarrera === selectedNombreCarrera
+			(carrera) => carrera.nombreCarrera === selectedNombreCarrera?.value
 		);
 		setSelectedCarrera(selectedCarrera);
 		setIsRamoEnabled(true); // Habilitar el segundo select al seleccionar una carrera
 	};
 
-	const handleRamoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		const selectedCodRamo = event.target.value;
+	const handleRamoChange = (event: Option | null) => {
+		const selectedCodRamo = event;
 
 		const ramoToSelect = selectedCarrera?.ramos.find(
-			(ramo) => ramo.codAsig === parseInt(selectedCodRamo)
+			(ramo) => ramo.codAsig === parseInt(selectedCodRamo!.value)
 		);
 		setSelectedRamo(ramoToSelect);
 		setIsHorarioEnabled(true);
@@ -90,6 +93,11 @@ export default function RegisterHorario() {
 		}
 	};
 
+	const options: Option[] = carreras.map((carrera) => ({
+		value: carrera.nombreCarrera,
+		label: carrera.nombreCarrera,
+	}));
+
 	return (
 		<main className="flex items-center">
 			<Navbar />
@@ -99,45 +107,36 @@ export default function RegisterHorario() {
 						Registrar Horario
 					</h1>
 					<div className="mx-auto my-2">
-						<select
+						<Select
 							className="w-[40vw] h-7 rounded-sm ps-1"
-							value={selectedCarrera?.nombreCarrera}
 							name="carrera"
 							onChange={handleCarreraChange}
-						>
-							<option disabled selected>
-								Seleccione una carrera
-							</option>
-							{carreras.map((carrera) => (
-								<option
-									key={carrera.codCarr}
-									value={carrera.codCarr}
-								>
-									{carrera.nombreCarrera}
-								</option>
-							))}
-						</select>
+							placeholder="Busca una carrera"
+							options={options}
+							isSearchable={true}
+						></Select>
 					</div>
 					<div className="mx-auto my-2">
-						<select
-							className="w-[40vw] h-7 disabled:cursor-not-allowed rounded-sm ps-1"
+						<Select
+							className={`w-[40vw] h-7 rounded-sm ps-1 ${
+								isRamoEnabled
+									? ''
+									: 'disabled:cursor-not-allowed'
+							}`}
 							name="ramo"
-							disabled={!isRamoEnabled}
 							onChange={handleRamoChange}
-						>
-							<option disabled selected>
-								Seleccione un ramo
-							</option>
-							{selectedCarrera?.ramos.map((ramo) => (
-								<option key={ramo.codAsig} value={ramo.codAsig}>
-									{ramo.nomAsig}
-								</option>
-							))}
-						</select>
+							placeholder="Busca un ramo"
+							options={selectedCarrera?.ramos.map((ramo) => ({
+								value: ramo.codAsig.toString(),
+								label: ramo.nomAsig,
+							}))}
+							isDisabled={!isRamoEnabled}
+							isSearchable={true}
+						></Select>
 					</div>
 					<div className="mx-auto my-2">
 						<input
-							className="w-[40vw] h-7 disabled:cursor-not-allowed"
+							className="w-[39.7vw] h-10 ps-3 ms-1 rounded-sm disabled:cursor-not-allowed"
 							type="text"
 							placeholder="Ingrese el horario ej: l2-w3-j1"
 							disabled={!isHorarioEnabled}

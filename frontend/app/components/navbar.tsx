@@ -8,7 +8,9 @@ export default function Navbar() {
 					</a>
 				</li>
 				<li className="mt-6">
-					<a href="horario/registrar">Registrar Horario</a>
+					<a href="/horario/registrar">
+						Registrar <br /> Horario
+					</a>
 				</li>
 			</ul>
 		</nav>
