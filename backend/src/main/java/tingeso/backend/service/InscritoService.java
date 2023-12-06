@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import tingeso.backend.model.Estudiante;
+import tingeso.backend.model.Horario;
 import tingeso.backend.model.Inscrito;
 import tingeso.backend.repository.InscritoRepository;
 
@@ -38,7 +39,9 @@ public class InscritoService {
     }
 
     public ResponseEntity<Integer> countInscritos(Integer idHorario) {
-        return ResponseEntity.status(200).body(notaRep.countAllByIdHorario(idHorario));
+        Horario horario = new Horario();
+        horario.setId(idHorario);
+        return ResponseEntity.status(200).body(notaRep.countAllByHorario(horario));
     }
 
     public ResponseEntity<List<Inscrito>> findByEstudiante(String rut) {

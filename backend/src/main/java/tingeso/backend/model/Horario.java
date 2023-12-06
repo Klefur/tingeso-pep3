@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @Data
@@ -20,4 +22,7 @@ public class Horario {
     @JoinColumn(name = "cod_asig")
     @JsonBackReference
     private PlanEstudio ramo;
+    @OneToMany
+    @JsonIgnore
+    private List<Inscrito> inscritos;
 }

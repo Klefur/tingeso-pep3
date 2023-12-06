@@ -19,6 +19,7 @@ public class Inscrito {
     private Estudiante estudiante;
     @Column(name = "cod_asig")
     private Integer codAsig;
-    @Column(name = "id_horario")
-    private Integer idHorario;
+    @JoinColumn(name = "id_horario")
+    @ManyToOne
+    private Horario horario;
 }
