@@ -8,8 +8,11 @@ export default function Navbar() {
 					</a>
 				</li>
 				<li className="mt-6">
-					<a href="/horario/registrar">
-						Registrar <br /> Horario
+					<a href="/horario/registrar" className="flex">
+						<div className="flex flex-col">
+							Registrar <span>Horario</span>
+						</div>
+						<img className="ms-2 flex h-12 w-12" src="/app_register.svg" alt="" />
 					</a>
 				</li>
 			</ul>

@@ -142,7 +142,7 @@ export default function Home() {
 		nota: Nota | null;
 	}) => {
 		if (ramo.horarios.length === 0) {
-			alert('Ramo sin horarios');
+			alert('Ramo sin horarios, inscriba un horario');
 			return;
 		}
 		const color = backgroundStyle({ ramo, nota });

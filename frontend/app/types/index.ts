@@ -7,7 +7,7 @@ type Estudiante = {
 };
 
 type Carrera = {
-	codCarr: number;
+	codigo: number;
 	nombreCarrera: string;
 	ramos: PlanEstudio[];
 };

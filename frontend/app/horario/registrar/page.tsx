@@ -1,9 +1,9 @@
 'use client';
 
 import Navbar from '@/app/components/navbar';
-import { Carrera, Estudiante, PlanEstudio } from '@/app/types';
+import { Carrera, PlanEstudio } from '@/app/types';
 import { useEffect, useState } from 'react';
-import Select, { Options, SingleValue } from 'react-select';
+import Select from 'react-select';
 
 interface Option {
 	value: string;
@@ -60,6 +60,11 @@ export default function RegisterHorario() {
 	};
 
 	const handleClick = async () => {
+		if (horario === '') {
+			alert('Debe ingresar un horario');
+			return;
+		}
+		
 		const regex = /^([lmwjv][1-6](-[lmwjv][1-6])*)?$/;
 
 		if (regex.test(horario)) {
@@ -82,6 +87,7 @@ export default function RegisterHorario() {
 
 			if (res.ok) {
 				alert('Horario subido con exito');
+				window.location.href = '/';
 				return;
 			}
 

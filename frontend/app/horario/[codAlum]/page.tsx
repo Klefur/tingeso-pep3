@@ -11,6 +11,7 @@ export default function HorarioAlumno({
 	const [ramosInscritos, setRamosInscritos] = useState<Inscrito[]>([]);
 	const [inscritos, setInscritos] = useState<Number[]>([]);
 	const [ramos, setRamos] = useState<PlanEstudio[]>([]);
+	const [haveRamos, setHaveRamos] = useState<boolean>(true);
 
 	const getData = async () => {
 		try {
@@ -18,6 +19,12 @@ export default function HorarioAlumno({
 				`http://localhost:8080/inscrito/rut/${params.codAlum}`
 			);
 			const data: Inscrito[] = await res.json();
+			
+			if (data.length === 0) {
+				console.log('No hay ramos inscritos');
+				setHaveRamos(false);
+			}
+
 			setRamosInscritos(data);
 
 			const inscritosData: Number[] = await Promise.all(
@@ -39,7 +46,6 @@ export default function HorarioAlumno({
 					return ramo;
 				})
 			);
-
 			setRamos(ramosData);
 			setInscritos(inscritosData);
 		} catch (error) {
@@ -57,10 +63,11 @@ export default function HorarioAlumno({
 			<div className='flex flex-col w-full m-2 p-3'>
 				<h1 className="text-2xl mb-4">Horario de alumno</h1>
 				<div>
-					{ramosInscritos.map((inscrito, index) => (
+					{!haveRamos && <p>No hay ramos inscritos</p>}
+					{haveRamos && ramosInscritos.map((inscrito, index) => (
 						<div className='bg-gray-200 grid grid-cols-3 text-black my-2 p-2 rounded-md w-[60vw]' key={index}>
-							<p className='col-span-2'>Nombre del ramo: {ramos[index]?.nomAsig}</p>
-							<p>Inscritos: {inscritos[index]?.toString()}</p>
+							<p className='col-span-2'>Curso: {ramos[index]?.nomAsig}</p>
+							<p>Alumnos en el curso: {inscritos[index]?.toString()}</p>
 						</div>
 					))}
 				</div>
