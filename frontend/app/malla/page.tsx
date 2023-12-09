@@ -141,15 +141,19 @@ export default function Home() {
 		ramo: PlanEstudio;
 		nota: Nota | null;
 	}) => {
+		const color = backgroundStyle({ ramo, nota });
+		
+		console.log(color);
+		
+		if (color !== 'bg-blue-300 hover:bg-blue-400') {
+			return;
+		}
+
 		if (ramo.horarios.length === 0) {
 			alert('Ramo sin horarios, inscriba un horario');
 			return;
 		}
-		const color = backgroundStyle({ ramo, nota });
 
-		if (color !== 'bg-blue-300 hover:bg-blue-400') {
-			return;
-		}
 
 		setSelectedRamo(ramo);
 		const student: Estudiante = JSON.parse(
@@ -236,6 +240,9 @@ export default function Home() {
 
 						<div className="w-4 h-4 bg-red-400 mr-2 rounded-lg"></div>
 						<span>Reprobado</span>
+
+						<div className="w-4 h-4 bg-slate-300 mr-2 rounded-lg"></div>
+						<span>Pendiente</span>
 					</div>
 				</div>
 
@@ -258,7 +265,7 @@ export default function Home() {
 										key={contenido.ramo.codAsig}
 										className={`${backgroundStyle(
 											contenido
-										)} flex rounded-md p-2 text-black h-[15vh] w-[12vw] items-center justify-center`}
+										)} flex rounded-sm p-2 text-black h-[15vh] w-[12vw] items-center justify-center`}
 										style={{
 											gridRow: rowIndex + 1,
 											gridColumn: columnIndex + 1,
